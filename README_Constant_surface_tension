@@ -1,0 +1,23 @@
+NOTE:  The star “*” stands for the name of any file.
+
+The objective of this tutorial is to understand the applications of constant surface tension simulations and how to modify simulations (specifically the mdp file of each simulation) to have this feature.
+
+
+Constant surface tension is used for??
+
+
+To have constant surface tension, the mdp file of the mdrun ( the second run) has to be modified.
+
+The mdp file has to be opened with a text-viewer and then editted.
+
+In front of the option "pcouple" there has to be "brendsen" and the option "Pcoupletype" there has to be "surface-tension". Also, other variables should not be changed.
+
+the "compressibility" option has to be modified and the second term has to be zero ( N  0). N is usually 3e-5
+
+the "ref_p" option has to be modified and the second term has to be zero and the first term has to a big number ( approximately 1000 to 5000)
+
+
+
+
+
+You can look these options up in the mdp file in this folder.

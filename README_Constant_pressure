@@ -1,4 +1,4 @@
-# NOTE:  The star “*” stands for the name of any file.
+NOTE:  The star “*” stands for the name of any file.
 
 The objective of this tutorial is to understand the applications of constant pressure simulations and how to modify simulations (specifically the mdp file of each simulation) to have this feature.
 

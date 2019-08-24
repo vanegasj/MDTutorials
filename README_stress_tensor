@@ -1,4 +1,4 @@
-NOTE:  The star “*” stands for the name of any file.
+# NOTE:  The star “*” stands for the name of any file.
 
 
 To graph the stress tensor of a monolayer/bilayer, we need to use a modified version of gromacs called gromacs_LS.

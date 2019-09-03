@@ -1,0 +1,11 @@
+#include "martini_v2.1_bmw.itp"
+#include "martini_lipids_bmw.itp"
+
+[ system ]
+; name
+DPPC bilayer at 325 K
+
+[ molecules ]
+; name number
+DPPC 200
+SOL 3000

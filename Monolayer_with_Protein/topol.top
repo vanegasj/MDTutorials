@@ -1,0 +1,15 @@
+#include "/apps/gmxff/bmw-martini/martini_v2.1_bmw.itp"
+#include "/apps/gmxff/bmw-martini/martini_lipids_bmw.itp"
+#include "/apps/gmxff/bmw-martini/martini_ions_bmw.itp"
+#include "PROA_P.itp"
+
+[ system ]
+; name
+DPPC bilayer at 325 K
+
+[ molecules ]
+; name number
+DPPC 100
+PROA_P 1
+SOL 2960
+CL 3

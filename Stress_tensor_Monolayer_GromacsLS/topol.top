@@ -1,0 +1,13 @@
+#include "/apps/gmxff/bmw-martini/martini_v2.1_bmw.itp"
+#include "/apps/gmxff/bmw-martini/martini_lipids_bmw.itp"
+#include "1SPF_1.itp"
+
+[ system ]
+; name
+DPPC bilayer at 325 K
+
+[ molecules ]
+; name number
+DPPC 100
+1SPF 1
+SOL 2965

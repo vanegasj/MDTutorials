@@ -5,19 +5,18 @@
 
 
 
-Constant volume simulations are the standard for  most simulations unless your instructor says otherwise.
++ Constant volume simulations are the standard for  most simulations unless your instructor says otherwise.
 
++ The mdp file has to be opened with a text-viewer and then editted.
 
-The mdp file has to be opened with a text-viewer and then editted.
++ In front of the option "pcouple" there has to be "no" and the option "Pcoupletype" there has to be "semiisotropic". Also, other variables should not be changed.
 
-In front of the option "pcouple" there has to be "no" and the option "Pcoupletype" there has to be "semiisotropic". Also, other variables should not be changed.
+ the "compressibility" option has to be modified and the second term has to be zero ( N  N). N is usually 3e-5
 
-the "compressibility" option has to be modified and the second term has to be zero ( N  N). N is usually 3e-5
-
-the "ref_p" option has to be 1 1 ( which is the standard for most mdp file.
-
-
++ the "ref_p" option has to be 1 1 ( which is the standard for most mdp file).
 
 
 
-You can look these options up in the mdp file in this folder.
+
+
+"You can look these options up in the mdp file in this folder."

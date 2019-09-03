@@ -1,0 +1,46 @@
+NOTE:  The star “*” stands for the name of any file.
+
+The basics of the monolayer simulation is the same as the normal bilayer simulations. The only difference is that the bilayer PDB file has to be first inverted, and then half of the molecules (the water molecules and the phospholipid molecules) have to be deleted from the PDB file using a text editor. Moreover, an index file has to be made from the new PDB file, and the TOP (topology) file has to be edited using a text editor for the number of molecules/atoms  to match the new number of molecules. 
+The following commands have to be executed:
+
+For an inverted bilayer, the pdb file has to be shifted upwards exactly half the total height of the box (this information can be found in the first line of the pdb file). 
+
+gmx editconf -f *.pdb -o *.pdb -translate 0 0 N
+
+p.s. N is half of the height of the box of the original pdb file.
+
+Then, half of the molecules have to be deleted through the “vim” command or the editor of the midnight commander.
+
+The resulting PDB has to be used to generate the index.ndx file.
+
+module load gromacs
+
+gmx make_ndx -f *.pdb -o index.ndx
+
+Finally the Topology file has to be edited for so that the number of molecules correspond to the new number of molecules ( after deleting half of the PDB molecules).
+
+The rest of the process is similar to the normal bilayer:
+
+there are two separate steps that have to be taken, energy minimization and the mdrun. The necessary files (pdb, top, itp) used in these steps have to be generated through an engine such as CHARMGUI or should be designated from the server (in the case of the itp files). These commands of these steps should be incorporated in a “sh” file ( which is a file containing the commands and the designated computing core )and submitted to the central computing system using the following command:
+qsub *.sh 
+You can track the progress of the simulation either through the following command
+Qstat
+which gives you information on the recent runs on the central system, or through the error file which is a file named after the “sh” file in the folder of operation and contains information about the current status of the simulation. (NOTE:The first error in the error file is usually the source of the problems of the simulation and is therefore the first thing that has to be addressed). 
+In the case that there are unnecessary warnings, you can add a “ -maxwarn N” to the end of the command lines, N being a number.
+The index file which will be used in the two steps can be made through the following command from the pdb file:
+
+gmx make-ndx -f *.pdb -o *.ndx
+
+The two steps include the following commands:
+
+Module load gromacs
+Step #1: energy minimization
+gmx grompp -f *.mdp -c *.pdb -n *.ndx -o *.tpr
+gmx mdrun -c *.pdb -s *.tpr   deffnm emin   -tabel *.xvg
+
+Step #2: mdrun 
+gmx grompp -f *.mdp -c *.pdb -n *.ndx -o *.tpr
+gmx mdrun -c *.pdb -s *.tpr   deffnm mdrun -tabel *.xvg
+
+The xvg and tpr files generated from the second step can be used to observe the trajectory through programs such as UCSF CHIMERA.
+

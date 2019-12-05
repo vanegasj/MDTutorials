@@ -34,6 +34,14 @@ Hence, the course grain model does not calculate/predict the interactions betwee
 ### You can easily modify the script and hence change what the program is doing and also waht processor on the cluster or on your PC is being utilized.
 ### The specifics of how to load gromacs and signify what GPU/CPU you want the script to run on are different depending on the cluster.
 
+
+
+
+
+
+# Code 
+
+
 The index file which will be used in the two steps can be made through the following command from the pdb file:
 
 gmx make-ndx -f *.pdb -o *.ndx

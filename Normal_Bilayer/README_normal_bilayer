@@ -84,7 +84,7 @@ The itp files contain information about the properties of the molecules/atoms in
 
 The topology file summarizes the information of the system and also gauges the gap between the pdb file and the itp files. They are very important files and you have to make sure that the information in them corresponds to the system described in the pdb file.
 
-![Topology ](MDTutorials/guz images/top.png)
+![Topology ](MDTutorials/guz_images/top.png)
 
 # Code 
 

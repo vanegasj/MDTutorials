@@ -71,3 +71,13 @@ tensortools -f *.dat0 --prof z -o localstress.xvg
 
 
 After this phase, you can plot the resulting xvg file and observe a graph of the stress tensor of your simulation. you can use the plot command outside of the cluster if you have it on your system, if not, ask your instructor and install it on your system a convinient way to visualize graphs.
+
+# Visualization of the output file (.xvg)
+
+To visualize the output file, a wide array of programs can be used.
+
+
+
+
+
+![Stress Tensor](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/stress.png)

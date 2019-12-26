@@ -74,7 +74,7 @@ After this phase, you can plot the resulting xvg file and observe a graph of the
 
 # Visualization of the output file (.xvg)
 
-To visualize the output file, a wide array of programs can be used.
+To visualize the output file, a wide array of programs can be used. A wide array of programs can be used to this end. The following graph has been obtained using the program Grace which is available on ubuntu. For more information on the available programs for visualization, visit http://www.gromacs.org/Documentation/How-tos/Graphing_Data .
 
 
 

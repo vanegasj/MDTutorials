@@ -128,4 +128,4 @@ gmx mdrun -c *.pdb -s *.tpr   deffnm mdrun -tabel *.xvg
 
 
 The xvg and tpr files generated from the second step can be used to observe the trajectory through programs such as UCSF CHIMERA.!
-![Bilayer](MDTutorials/Normal_Bilayer/bilayer.png)
+![Bilayer](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/bilayer.png)

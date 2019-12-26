@@ -52,7 +52,7 @@ The protein data bank (pdb) file includes information about the initial system y
 Here is a picture of how the file looks in a text editor:
 
 
-![PDB](../../../../MDTutorials/guz_images/pdb.png)
+![PDB](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/pdb.png)
 
 
 

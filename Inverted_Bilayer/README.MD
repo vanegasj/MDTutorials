@@ -2,6 +2,8 @@
 
 
 
+
+
 NOTE:  The star “*” stands for the name of any file.
 
 For an inverted bilayer, the pdb file has to be shifted upwards exactly half the total height of the box (this information can be found in the first line of the pdb file). 

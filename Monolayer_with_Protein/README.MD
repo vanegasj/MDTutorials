@@ -1,5 +1,5 @@
 
-![Bilayer](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/monolayer with proteins.png)
+![Bilayer](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/monolayer_with_proteins.png)
 
 
 

@@ -62,7 +62,7 @@ Here is a picture of how the file looks in a text editor:
 The mdp file basically tells gromacs what the "laws" of the system are and how the system works. It contains information such as the type of simulation that is runnning ( energy minimization vs mdrun), the speed of the particles, the force field of the system, the pressure enacted on the system, etc. It is the most technical file and modification should only be made with complete knowledge of the outcomes.
 
 
-![MDP](../../../MDTutorials/guz_images/mdp.png)
+![MDP](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/mdb.pngg)
 
 
 ## index file:
@@ -71,7 +71,7 @@ NOTE: The star “*” stands for the name of any file.
 NO
 The index file is an accompaniying file to the pdb file and contains information about the type of atoms/molecules and their numbers in the system.
 
-![Index](../MDTutorials/guz_images/index.png)
+![Index](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/index.png)
 
 ## ITP files:
 
@@ -84,7 +84,7 @@ The itp files contain information about the properties of the molecules/atoms in
 
 The topology file summarizes the information of the system and also gauges the gap between the pdb file and the itp files. They are very important files and you have to make sure that the information in them corresponds to the system described in the pdb file.
 
-![Topology ](MDTutorials/guz_images/top.png)
+![Topology ](https://github.com/vanegasj/MDTutorials/blob/master/guz_images/top.png)
 
 # Code 
 

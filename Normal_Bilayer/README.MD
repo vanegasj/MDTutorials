@@ -93,6 +93,17 @@ The index file which will be used in the two steps can be made through the follo
 
 gmx make-ndx -f *.pdb -o *.ndx
 
+To make the script, you can use the "vim" command. The processes needed to make a script file that would run things on your cluster (a computing device other than your device ) are different depending on your cluster setting. However, you can easily make a script file that would run on your PC or on the terminal through the vim. To do this, follow the illustrated commands:
+first type :
+
+vim
+
+now press "i"
+
+Now you can make your script. start the script with  #!/data/bash/bin and then copy the gromacs commands presented at the end of this tutorial to complete the script. you might alos want to include "modue load gromacs" to make sure that gromacs is loaded and ready to go! 
+
+Finally, press the "esc" button to exit vim and enter the command line and type ":wq scriptname.sh" to save your scrit ( you can edit "scriptname.sh" to whatever you'd like.
+
 
 To run the script, you can use the following command:
 

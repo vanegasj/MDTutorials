@@ -28,5 +28,14 @@ gmx grompp -f *.mdp -c *.pdb -n *.ndx -o *.tpr
 gmx mdrun -c *.pdb -s *.tpr   deffnm emin   -tabel *.xvg
 
 These steps could be incorporated in a “sh” file and submitted to the central computing system using the following command:
+qsub *.sh '
+#### Or if you are using an unmodified version of bash:
+bash *.sh
 
-qsub *.sh
+You can track the progress of the simulation either through the following command: 
+
+qstat
+
+#### Or if you are using an unmodified version of bash:
+
+top

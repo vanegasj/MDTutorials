@@ -97,10 +97,16 @@ gmx make-ndx -f *.pdb -o *.ndx
 To run the script, you can use the following command:
 
 qsub *.sh '
+#### Or if you are using an unmodified version of bash:
+bash *.sh
 
 You can track the progress of the simulation either through the following command: 
 
 qstat
+
+#### Or if you are using an unmodified version of bash:
+
+top
 
 which gives you information on the recent runs on the central system, or through the error file which is a file named after the “sh” file in the folder of operation and contains information about the current status of the simulation. (NOTE:The first error in the error file is usually the source of the problems of the simulation and is therefore the first thing that has to be addressed). 
 

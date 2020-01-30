@@ -131,13 +131,13 @@ The two steps include the following commands:
 
 
 
-Step #1: energy minimization
+#Step #1: energy minimization
 gmx grompp -f *.mdp -c *.pdb -n *.ndx -o *.tpr
 gmx mdrun -c *.pdb -s *.tpr   deffnm emin   -tabel *.xvg
 
 
 
-Step #2: mdrun 
+#Step #2: mdrun 
 gmx grompp -f *.mdp -c *.pdb -n *.ndx -o *.tpr
 gmx mdrun -c *.pdb -s *.tpr   deffnm mdrun -tabel *.xvg
 

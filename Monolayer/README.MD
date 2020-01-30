@@ -71,9 +71,19 @@ Finally the Topology file has to be edited for so that the number of molecules c
 The rest of the process is similar to the normal bilayer:
 
 there are two separate steps that have to be taken, energy minimization and the mdrun. The necessary files (pdb, top, itp) used in these steps have to be generated through an engine such as CHARMGUI or should be designated from the server (in the case of the itp files). These commands of these steps should be incorporated in a “sh” file ( which is a file containing the commands and the designated computing core )and submitted to the central computing system using the following command:
-qsub *.sh 
-You can track the progress of the simulation either through the following command
+
+
+qsub *.sh '
+#### Or if you are using an unmodified version of bash:
+bash *.sh
+
+You can track the progress of the simulation either through the following command: 
+
 qstat
+
+#### Or if you are using an unmodified version of bash:
+
+top
 which gives you information on the recent runs on the central system, or through the error file which is a file named after the “sh” file in the folder of operation and contains information about the current status of the simulation. (NOTE:The first error in the error file is usually the source of the problems of the simulation and is therefore the first thing that has to be addressed). 
 In the case that there are unnecessary warnings, you can add a “ -maxwarn N” to the end of the command lines, N being a number.
 The index file which will be used in the two steps can be made through the following command from the pdb file:

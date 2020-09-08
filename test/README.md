@@ -2,7 +2,7 @@
 
 Hello world
 
-[figure1]: ./deltap.png
+[figure1]: rdf-plot.png
 
 ```
 gmx command

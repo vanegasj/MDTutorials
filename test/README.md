@@ -2,7 +2,7 @@
 
 Hello world
 
-[figure1]: rdf-plot.png
+![figure1](rdf-plot.png)
 
 ```
 gmx command

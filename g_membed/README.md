@@ -31,7 +31,6 @@ Figure 2: The lipid bilayer with water molecules stripped
 ```  
 #include "gromacs767-s3s.ff/forcefield.itp"
 #include "gromacs767-s3s.ff/lipids_76a7-s3.itp"
-#include "gromacs767-s3s.ff/spce.itp"
 
 [system]
 POPE200 Hexagonal Box
@@ -57,7 +56,7 @@ NOTE: The gromacs adds solvent molecules as rectangular boxes to the exisiting h
 ```
 gmx solvate -cp POPE200.pdb -o POPE200_solv.pdb -cs spc216.gro
 ```
-The newly generated pdb file POPE200_solv.pdb is solvated with the SPCE water model available in GROMOS force field. It is critical that pdb structure is visualized in VMD/Chimera to MAKE SURE THERE ARE NO WATER MOLECULES IN THE LIPID BILAYER. If there are a few water molecules make sure to delete them from the pdb file. If there are more water molecules, change the VDW radii of lipid acyl chain carbon atoms (tails) to a higher value. In the case of 200 POPE lipid bilayer membrane, the value was set to 1.1 angstrom. Adjust the values accordingly.
+The newly generated pdb file POPE200_solv.pdb is solvated with the SPCE water model available in the GROMOS force field. It is critical that pdb structure is visualized in VMD/Chimera to MAKE SURE THERE ARE NO WATER MOLECULES IN THE LIPID BILAYER. If there are a few water molecules make sure to delete them from the pdb file. If there are more water molecules, change the VDW radii of lipid acyl chain carbon atoms (tails) to a higher value (One can try 0.6-1.2 Angstrom range). In the case of 200 POPE lipid bilayer membrane, the value was set to 1.1 Angstrom. Adjust the values accordingly.
 
 8. Make sure to update the gromacs topology file (topol.top) with the number of water molecules (SOL) added in the solvation.
 ```
@@ -72,23 +71,28 @@ POPE200 Hexagonal Box
 POPE 200
 SOL 15182
 ```
-NOTE: The order of molecules in the topol.top has to match the one in pdb file else the gmx will throw an error.
+NOTE: The order of molecules in the topol.top has to match the one in pdb file else the gmx will throw residues don't match error.
 
 9. Prepare to perform the energy minimization of the solvated system. The energy minimization is done in two steps:
 	1. No bond constraints
 	2. With all-bond constraints 
 
 To that, one need to modify the gromacs .mdp file named here as emin.mdp. For the first step with no bond constraints, set 
-	constraints = none. 
+	define = -DFLEXIBLE
+	constraints = none
+ 
 Once the unconstained minimization is done. Set to 
+	define = -DPOSRES
 	constraints = all-bonds
+
+NOTE: The define flag (-DFLEXIBLE = no constraints (SETTLE algorithm) on water molecules while -DPOSRES = constraints on all system molecules)
 
 In addition, set the temperature coupling (tcoupl) parameter in emin.mdp to the following:
 	tc_grps = System
 	tau_t = 1.0
 	ref_t = 310
 
-Set integrator = steep and number of steps (nsteps) to a required number. In the case of 200 POPE system, both energy minimizations were done for 5000 steps. A separate file was created for energy minimization with constraints (emin_constraints.mdp). For more detail refer to emin.mdp and emin_constraints.mdp files in the g_membed folder.  
+Also set integrator = steep. In the case of 200 POPE system, both energy minimizations were done for 5000 steps. A separate file was created for energy minimization with constraints (emin_constraints.mdp). For more detail refer to emin.mdp and emin_constraints.mdp files in the g_membed folder.  
 
 Generate gromacs .tpr file using "grompp" command to perform energy minimization of solvated lipid membrane system (to get rid of any steric clashes and atom overlaps). The separate .tpr files were generated for each unconstrained and constrained all-bonds energy minimization using the command below:
 ```
@@ -100,7 +104,7 @@ gmx mdrun -s emin_contraints.tpr
 ```
 NOTE: The input file POPE200_solv_adj.pdb was generated after adjusting the box dimensions to ensure there were no water molecules between lipid bilayer leaflets and no water molecules outside the box (visually). 
 
-10. Perform the energy minimization sequencially using gromacs "mdrun" after "grompp" command as above. 
+10. Perform the energy minimization sequentially using gromacs "mdrun" after "grompp" command as above. 
 
 NOTE: confout.gro is a gromacs coordinate file that is generated after the first energy minimization run (unconstrained bonds) and is used as input for the second energy minimization run (all-bonds constrained). The other files that has information on energies, trajectories, minimization run outputs, log files are generated as well. Make sure to rename them and save for further analysis.
 
@@ -152,6 +156,10 @@ NOTE: If number of steps is longer than few hundred nanoseconds it is preferable
 NOTE: All short NPT equilibration files were renamed as with the suffix "_250ps_npt_berendsen.filetype". The confout.gro is output from the short NPT run. 
 
 19. A sbatch script file (run_gromacs.sh) was created to submit long equilibration MD simulation job to cluster (gibbs).
+```
+	gmx mdrun -deffnm npt_berendsen -c pope200_npt_berendsen_100ns.pdb
+
+NOTE: The -deffnm flag looks for any file with prefix npt_berendsen. In our case the .tpr files is generated using the grompp was named npt_berendsen.tpr. The deffnm flag also helps generate MD simulation output files with prefix "npt_berendsen". The -c flag generate pdb file at the end of the MD simulation for easy visualization.
 
 Refer: run_gromacs.sh in the g_membed folder for more information
 
@@ -159,6 +167,168 @@ Refer: run_gromacs.sh in the g_membed folder for more information
 
 PART-2
    
+1. Once the equilibrated lipid membrane bilayer is generated the next step is to perform embedding of transmembrane protein into the membrane. The embedding is done using the high lateral pressure (HLP) method (Universal Method for Embedding Proteins into Complex Lipid Bilayers for Molecular Dynamics Simulations - Matti Javanainen, JCTC, 2014). This method is independent of type of lipid membrane, Force field specifications, or any softwares. The protein is inserted into the hosr lipid membrane by applying a large lateral pressure to the system followed by a quick relaxation simulation. Thus, there is no need to delete any lipid and water molecules from the system. 
+
+NOTE: Adjust the box size prior to embedding process to make sure there is atleast 15 Angstrom distance from the molecules heads to box edge on Z-dimension. Use gmx editconf for box dimensions modification. 
+
+2. The first step to perform protein embedding is to prepare the .mdp file. In our case, the .mdp file was named as grompp_hlp_membed.dat. The following changes are to be made in the .mdp file.
+
+```
+define = -DPOSRES -DZPOSRES
+nsteps = 500000 
+refcoord_scaling = com     
+tau_p = 20.0
+ref_p = 1000 1.0
+
+NOTE: A simulation of 1 ns was run (with dt = 2 fs) with position constraints on all-atoms and on water molecules along Z-axis so as to allow free rotation along X-Y axis for it to equilibrate around the protein molecule. The refcoord_scaling set to the Center-Of-Mass (COM) scales the system to COM instead of all atom coordinates which eases the volume transformation during equilibration process. The pressure coupling (tau_p) was set to 20 ps and reference pressure (ref_p) was set to 1000 bar (lateral pressure) in the membrane plane during protein insertion, whereas a value of 1 bar was set to during relaxation simulation (post protein insertion into the membrane). 
+
+3. The heavy atoms (non-hydrogen) of proteins were restrained in all three dimensions. The force contant was changed from 1000 to 10000 kJ/mol nm/squared for all the protein chains (of MscL protein complex) in the .itp files. The files that were modified were as follows:
+	1. posre_Protein_chain_A.itp
+        2. posre_Protein_chain_B.itp
+	3. posre_Protein_chain_C.itp
+	4. posre_Protein_chain_D.itp
+	5. posre_Protein_chain_E.itp
+
+For example, the first few lines of the modified posre_Protein_chain_A.itp file is given below:
+```
+; In this topology include file, you will find position restraint
+; entries for all the heavy atoms in your original pdb file.
+; This means that all the protons which were added by pdb2gmx are
+; not restrained.
+
+[ position_restraints ]
+; atom  type      fx      fy      fz
+     1     1  10000  10000  10000
+     5     1  10000  10000  10000
+     6     1  10000  10000  10000
+     7     1  10000  10000  10000
+     8     1  10000  10000  10000
+     9     1  10000  10000  10000
+    10     1  10000  10000  10000
+```
+5. For the lipids, the following modifications were made to the lipids_76a7-s3.itp file:
+	The following lines were added after the definition of the POPE lipid -
+```
+#ifdef ZPOSRES
+[ position_restraints ]
+8   1   0   0   10000
+33  1   0   0   10000
+52  1   0   0   10000
+#endif
+```
+
+6. For the water molecules, the following changes were made to the spce.itp file:
+
+```
+#ifdef ZPOSRES
+[ position_restraints ]
+1   1   0   0   10000
+#endif
+``` 
+
+7. Once the file modifications are done. The next step is to generate the .tpr file using gromacs grompp command.
+```
+gmx grompp -f pope200_npt_berendsen_100ns.pdb -r pope200_npt_berendsen_100ns.pdb -o 2oar_pope200_1ns_npt_berendsen_embedding.pdb -s membed.tpr -maxwarn 1
+```
+
+8. The .tpr file generated is used to perfom NPT MD simulation. The script file is run_gromacs.sh:
+```
+gmx mdrun -deffnm membed -c 2oar_pope200_embedded_HLP.pdb
+```
+8. The pdb file generated after embedding/relaxation is visually to make sure it looks fine. The protein should now be centered in the lipid membrane bilayer. It should also roughly tell us the number of lipid layers around the protein. 
+
+9. Next, strip the water molecules from the pdb file either manually or using visualization program. Adjust the box size, if necessary, to make sure there is atleast 15 A distance between the molecules head and box edge along Z-dimension.
+
+The pdd file is now named 2oar_pope200_postmembed_dry.pdb.
+
+10. Resolvate the system using gmx solvate command as follows:
+```
+gmx solvate -cp 2oar_pope200_postmembed_dry.pdb -o 2oar_pope200_postmembed_solv.pdb -cs spc216.gro
+```
+
+11. A three step energy minimization is performed following resolvation as before: 
+	1. No bond constraints on entire system
+	2. No bond constraints on water molecules with bond constraints on non-solvents
+	3. All bond constraints  
+		
+NOTE: Separate .mdp files were constructured for each energy minimization step and .tpr file generated for MD run. 
+For the first energy minimization - no bond constaints. The .mdp, .tpr and outputted files (.edr, .trr, .log) are all labeled with the suffix 
+```
+_noconstraints
+```
+Similarly for the second and third minimizations the suffixes are 
+```
+_waterflexible_allconstraints
+
+and 
+
+_allconstraints
+```
+The confout.gro files that are outputted at the ened of each minimization are named accordingly. Only the last minimization output files (.edr, .trr, .lod) were saved and renamed with the suffix: 
+```
+ener_emin.edr
+traj_emin.trr
+md_emin.log
+```
+NOTE: The all files can be found in g_membed folder.
+
+12. The equilibration run is performed following the last energy minimization. Before equilibration is performed a index file has to be generated with LIPIDS_Protein as a group using gmx make_ndx command as below:
+```
+gmx make_ndx -f 2oar_pope200_postmembed_solv.pdb -o index.ndx
+```
+At prompt select -> NONSOL 
+(NONSOL = number of protein atoms + number of lipid atoms)
+create the new group -> name "groupnumber" lIPIDS_Protein
+-> q
+ 
+13. The .mdp file is constructed (grompp_equil.mdp) and .tpr file generated as before. The MD simulation was run with gmx mdrun command in run_gromacs.sh script file:
+```
+gmx mdrun -deffnm equil -c 2oar_pope200_postmembed_100ns_npt_berendsen.pdb 
+```
+
+14. 
+
+ 
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

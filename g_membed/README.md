@@ -179,7 +179,7 @@ nsteps = 500000
 refcoord_scaling = com     
 tau_p = 20.0
 ref_p = 1000 1.0
-
+```
 NOTE: A simulation of 1 ns was run (with dt = 2 fs) with position constraints on all-atoms and on water molecules along Z-axis so as to allow free rotation along X-Y axis for it to equilibrate around the protein molecule. The refcoord_scaling set to the Center-Of-Mass (COM) scales the system to COM instead of all atom coordinates which eases the volume transformation during equilibration process. The pressure coupling (tau_p) was set to 20 ps and reference pressure (ref_p) was set to 1000 bar (lateral pressure) in the membrane plane during protein insertion, whereas a value of 1 bar was set to during relaxation simulation (post protein insertion into the membrane). 
 
 3. The heavy atoms (non-hydrogen) of proteins were restrained in all three dimensions. The force contant was changed from 1000 to 10000 kJ/mol nm/squared for all the protein chains (of MscL protein complex) in the .itp files. The files that were modified were as follows:

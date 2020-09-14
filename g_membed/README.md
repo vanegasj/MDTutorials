@@ -239,7 +239,7 @@ gmx mdrun -deffnm membed -c 2oar_pope200_embedded_HLP.pdb
 
 9. Next, strip the water molecules from the pdb file either manually or using visualization program. Adjust the box size, if necessary, to make sure there is atleast 15 A distance between the molecules head and box edge along Z-dimension.
 
-The pdd file is now named 2oar_pope200_postmembed_dry.pdb.
+The pdb file is renamed as 2oar_pope200_postmembed_dry.pdb.
 
 10. Resolvate the system using gmx solvate command as follows:
 ```

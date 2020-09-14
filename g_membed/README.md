@@ -167,7 +167,7 @@ Refer: run_gromacs.sh in the g_membed folder for more information
 
 PART-2
    
-1. Once the equilibrated lipid membrane bilayer is generated the next step is to perform embedding of transmembrane protein into the membrane. The embedding is done using the high lateral pressure (HLP) method (Universal Method for Embedding Proteins into Complex Lipid Bilayers for Molecular Dynamics Simulations - Matti Javanainen, JCTC, 2014). This method is independent of type of lipid membrane, Force field specifications, or any softwares. The protein is inserted into the hosr lipid membrane by applying a large lateral pressure to the system followed by a quick relaxation simulation. Thus, there is no need to delete any lipid and water molecules from the system. 
+1. Once the equilibrated lipid membrane bilayer is generated the next step is to perform embedding of transmembrane protein into the membrane. The embedding is done using the high lateral pressure (HLP) method (Universal Method for Embedding Proteins into Complex Lipid Bilayers for Molecular Dynamics Simulations - Matti Javanainen, JCTC, 2014 <https://pubs.acs.org/doi/10.1021/ct500046e>). This method is independent of type of lipid membrane, Force field specifications, or any softwares. The protein is inserted into the hosr lipid membrane by applying a large lateral pressure to the system followed by a quick relaxation simulation. Thus, there is no need to delete any lipid and water molecules from the system. 
 
 NOTE: Adjust the box size prior to embedding process to make sure there is atleast 15 Angstrom distance from the molecules heads to box edge on Z-dimension. Use gmx editconf for box dimensions modification. 
 

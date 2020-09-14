@@ -158,7 +158,7 @@ NOTE: All short NPT equilibration files were renamed as with the suffix "_250ps_
 19. A sbatch script file (run_gromacs.sh) was created to submit long equilibration MD simulation job to cluster (gibbs).
 ```
 	gmx mdrun -deffnm npt_berendsen -c pope200_npt_berendsen_100ns.pdb
-
+```
 NOTE: The -deffnm flag looks for any file with prefix npt_berendsen. In our case the .tpr files is generated using the grompp was named npt_berendsen.tpr. The deffnm flag also helps generate MD simulation output files with prefix "npt_berendsen". The -c flag generate pdb file at the end of the MD simulation for easy visualization.
 
 Refer: run_gromacs.sh in the g_membed folder for more information
